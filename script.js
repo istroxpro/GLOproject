@@ -31,11 +31,11 @@ fullPrice = screenPrice + servicePrice1 + servicePrice2;
 let servicePercentPrice = fullPrice - Math.ceil(rollback);
 console.log(servicePercentPrice);
 // Конструкция условий
-if (fullPrice > 30000) {
+if (fullPrice >= 30000) {
     console.log('Даем скидку в 10%')
-} else if (fullPrice > 15000 && fullPrice < 30000) {
+} else if (fullPrice >= 15000 && fullPrice < 30000) {
     console.log('Даем скидку в 5%')
-} else if (fullPrice < 15000 && fullPrice > 0) {
+} else if (fullPrice < 15000 && fullPrice >= 0) {
     console.log('Скидка не предусмотрена')
 } else {
     console.log('Что-то пошло не так')
