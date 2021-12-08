@@ -2,30 +2,53 @@
 
 const appData = {
     title: '',
-    screens: '',
+    screens: [],
     screenPrice: 0,
     rollback: 27,
     fullPrice: 0,
     adaptive: true,
     allServicePrices: 0,
-    service1: '',
-    service2: '',
+    services: {},
     servicePercentPrice: 0,
-    logger: function () {
-        console.log(appData.fullPrice);
-        console.log(appData.allServicePrices);
-        console.log(this.getRollbackMessage());
-        for (let prop in appData) {
-            console.log('appData.' + prop + " = " + appData[prop])
-        }
-    },
-    asking: function () {
-        appData.title = prompt('Как называется ваш проект?', 'Калькулятор верстки');
-        appData.screens = prompt('Какие типы экранов нужно разобрать?', 'Простые, сложные');
 
+    asking: function () {
         do {
-            appData.screenPrice = prompt('Сколько будет стоить данная работа?')
-        } while (!appData.isNumber(appData.screenPrice))
+            appData.title = prompt('Как называется ваш проект?');
+        } while (appData.isNumber(appData.title))
+
+        for (let i = 0; i < 2; i++) {
+            let name = prompt('Какие типы экранов нужно разобрать?');
+            let price = 0;
+
+            while (appData.isNumber(name)) {
+                name = prompt('Какие типы экранов нужно разобрать?')
+            }
+
+            do {
+                appData.screenPrice = prompt('Сколько будет стоить данная работа?')
+            } while (!appData.isNumber(appData.screenPrice))
+            appData.screens.push({
+                id: i,
+                name: name,
+                price: price
+            })
+        }
+
+
+        for (let i = 0; i < 2; i++) {
+            let name = prompt('Какой дополнительный тип услуги нужен?');
+            let price = 0;
+
+            while (appData.isNumber(name)) {
+                name = prompt('Какой дополнительный тип услуги нужен?')
+            }
+
+            do {
+                price = prompt('Сколько это будет стоить')
+            } while (!appData.isNumber(price))
+
+            appData.services[name] = +price
+        }
 
         appData.adaptive = confirm('Нужен ли адаптив на сайте?')
     },
@@ -43,37 +66,35 @@ const appData = {
             return 'Что-то пошло не так'
         };
     },
-    getAllServicePrices: function () {
-        let sum = 0;
-        for (let i = 0; i < 2; i++) {
-            let price = 0
-            if (i === 0) {
-                appData.service1 = prompt('Какой дополнительный тип услуги нужен?')
-            } else if (i === 1) {
-                appData.service2 = prompt('Какой дополнительный тип услуги нужен?')
-            };
-            do {
-                price = prompt('Сколько это будет стоить')
-            } while (!appData.isNumber(price))
-            sum += +price;
-        }
-        return sum;
-    },
     getFullPrice: function () {
-        return +appData.screenPrice + +appData.allServicePrices
+        appData.fullPrice = +appData.screenPrice + +appData.allServicePrices
     },
     getTitle: function () {
-        return appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase()
+        appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase()
     },
     getServicePercentPrice: function () {
-        return appData.fullPrice - (appData.fullPrice * (appData.rollback / 100))
+        appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100))
+    },
+    addPrices: function () {
+        for (let screen of appData.screens) {
+            appData.screenPrice += +screen.price
+        };
+        for (let key in appData.services) {
+            appData.allServicePrices += appData.services[key]
+        };
+    },
+    logger: function () {
+        console.log(appData.fullPrice);
+        console.log(appData.allServicePrices);
+        console.log(this.getRollbackMessage());
+        console.log(this.screens)
     },
     start: function () {
         this.asking()
-        appData.servicePercentPrice = this.getServicePercentPrice()
-        appData.allServicePrices = this.getAllServicePrices()
-        appData.title = this.getTitle()
-        appData.fullPrice = this.getFullPrice()
+        this.addPrices()
+        this.getServicePercentPrice()
+        this.getTitle()
+        this.getFullPrice()
         this.logger()
     }
 }
