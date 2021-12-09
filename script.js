@@ -85,7 +85,7 @@ const appData = {
     logger: function () { // Запускаем метод логгера
         console.log(this.fullPrice);
         console.log(this.allServicePrices);
-        console.log(this.getRollbackMessage(this.fullprice));
+        console.log(this.getRollbackMessage(this.fullPrice));
         console.log(this.screens)
     },
     start: function () { // Этим методом мы совершаем все присваивания и запускаем цикл вопросов.
