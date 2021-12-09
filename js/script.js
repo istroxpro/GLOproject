@@ -1,4 +1,18 @@
 'use strict';
+const title = document.getElementsByTagName('h1');
+const handlers = document.getElementsByClassName('handler_btn');
+const plusButton = document.querySelector('.screen-btn');
+let otherItemsPercent = document.querySelectorAll('.other-items.percent')
+let otherItemsNumber = document.querySelectorAll('.other-items.number')
+let inputRange = document.querySelector('.rollback > .main-controls__range > input[type="range"]')
+let rangeValue = document.querySelector('.rollback > .main-controls__range > .range-value');
+let workPrice = document.getElementsByClassName('total-input')[0]
+let screenCount = document.getElementsByClassName('total-input')[1]
+let extraExpenses = document.getElementsByClassName('total-input')[2]
+let totalPrice = document.getElementsByClassName('total-input')[3]
+let rollbackPrice = document.getElementsByClassName('total-input')[4]
+let screenCalc = document.querySelectorAll('.screen');
+
 
 const appData = {
     title: '',
