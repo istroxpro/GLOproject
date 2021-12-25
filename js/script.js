@@ -61,19 +61,27 @@ const appData = {
         document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
         startBtn.style.display = 'block';
         resetBtn.style.display = 'none';
+        screens.forEach((item, i) => {
+            const select = item.querySelector('select');
+            const input = item.querySelector('input');
+            if (i > 0) {
+                item.remove()
+            }
+        })
+        appData.start()
     },
     // Блокируем кнопку в случае, если не введены значения.
     btnBlock: function () {
-        this.isError = false;
+        appData.isError = false;
         screens = document.querySelectorAll('.screen');
         screens.forEach(function (screen) {
             const select = screen.querySelector('select');
             const input = screen.querySelector('input');
             if (select.value === '' || input.value === '') {
-                this.isError = true;
+                appData.isError = true;
             }
         });
-        if (!this.isError) {
+        if (!appData.isError) {
             appData.start();
         } else {
             alert('Сделай выбор');
